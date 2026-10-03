@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ПЕКАРНЯ DAG — свежая выпечка с заказом онлайн</title>
+<meta name="description" content="ПЕКАРНЯ DAG: хлеб, выпечка и сладкое из печи. Выберите на сайте и оформите заказ за минуту.">
+<meta name="theme-color" content="#1D2BD4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='28' fill='%231D2BD4'/%3E%3Ctext x='50' y='66' font-size='54' text-anchor='middle'%3E🥐%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body id="top">
+
+<header class="nav">
+  <div class="container">
+    <a class="brand" href="#top" aria-label="ПЕКАРНЯ DAG — наверх">
+      <span class="logo" aria-hidden="true">DAG</span>
+      <span class="t">ПЕКАРНЯ DAG</span>
+    </a>
+    <div class="nav-actions">
+      <button class="btn ghost small" id="ordersBtn" type="button">Мои заказы</button>
+      <button class="btn small" id="cartBtn" type="button" aria-label="Открыть корзину">Корзина <span class="count" id="cartCount">0</span></button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div>
+      <h1 id="heroTitle" aria-label="ПЕКАРНЯ DAG">
+        <span class="line" data-split>ПЕКАРНЯ</span>
+        <span class="line" data-split>DAG</span>
+      </h1>
+      <p class="hero-lead">Хлеб, выпечка и сладкое из печи. Выберите на сайте, а мы приготовим к нужному времени.</p>
+      <div class="hero-cta">
+        <a class="btn big" href="#menu">Выбрать выпечку</a>
+        <button class="btn big ghost" type="button" id="ordersBtn2">Где мой заказ?</button>
+      </div>
+      <div class="hero-info" id="heroInfo"></div>
+    </div>
+
+    <div class="hero-art" aria-hidden="true" id="heroArt">
+      <svg class="ring" viewBox="0 0 200 200">
+        <defs><path id="circ" d="M100,100 m-84,0 a84,84 0 1,1 168,0 a84,84 0 1,1 -168,0"/></defs>
+        <text><textPath href="#circ" startOffset="0">Свежий хлеб ✺ Горячая выпечка ✺ Каждый день ✺ </textPath></text>
+      </svg>
+      <div class="sun"><span class="big">🥐</span></div>
+      <span class="float a" data-depth="18">🍞</span>
+      <span class="float b" data-depth="-14">🥖</span>
+      <span class="float c" data-depth="10">🍪</span>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Свежий хлеб<i>✺</i>Горячая выпечка<i>✺</i>Сладкое из печи<i>✺</i>Заказ онлайн<i>✺</i>Свежий хлеб<i>✺</i>Горячая выпечка<i>✺</i>Сладкое из печи<i>✺</i>Заказ онлайн<i>✺</i></span>
+    <span>Свежий хлеб<i>✺</i>Горячая выпечка<i>✺</i>Сладкое из печи<i>✺</i>Заказ онлайн<i>✺</i>Свежий хлеб<i>✺</i>Горячая выпечка<i>✺</i>Сладкое из печи<i>✺</i>Заказ онлайн<i>✺</i></span>
+  </div>
+</div>
+
+<main class="menu" id="menu">
+  <div class="container">
+    <div class="menu-head">
+      <div>
+        <h2>Меню</h2>
+        <p>Всё, что сегодня в печи.</p>
+      </div>
+      <div class="cats" id="cats" role="group" aria-label="Категории"></div>
+    </div>
+    <div class="grid" id="grid" aria-live="polite"></div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="word">ПЕКАРНЯ<br>DAG</div>
+    <ul id="footInfo"></ul>
+  </div>
+</footer>
+
+<!-- Корзина -->
+<dialog class="drawer" id="cartDlg" aria-labelledby="cartTitle">
+  <div class="drawer-in">
+    <div class="drawer-head">
+      <h2 id="cartTitle">Корзина</h2>
+      <button class="x" type="button" data-close aria-label="Закрыть">✕</button>
+    </div>
+    <div class="drawer-body">
+      <div id="cartView">
+        <div id="cartItems"></div>
+        <div id="checkout" hidden>
+          <div class="total"><span>Итого</span><span class="price" id="cartTotal"></span></div>
+          <form class="form" id="orderForm" novalidate>
+            <label for="fName">Имя</label>
+            <input class="field" id="fName" name="name" autocomplete="name" maxlength="80" required>
+            <label for="fPhone">Телефон</label>
+            <input class="field" id="fPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30" required>
+            <label>Как получить</label>
+            <div class="seg2">
+              <label><input type="radio" name="method" value="pickup" checked> Самовывоз</label>
+              <label><input type="radio" name="method" value="delivery"> Доставка</label>
+            </div>
+            <div id="addrBox" hidden>
+              <label for="fAddr">Адрес доставки</label>
+              <input class="field" id="fAddr" name="address" autocomplete="street-address" maxlength="200">
+            </div>
+            <label for="fNote">Комментарий</label>
+            <textarea class="field" id="fNote" name="comment" maxlength="500" placeholder="К какому времени, пожелания"></textarea>
+            <p class="form-err" id="formErr" role="alert"></p>
+            <button class="btn blue big" type="submit" id="sendBtn">Отправить заказ</button>
+            <p class="fine">Оплата при получении. Мы позвоним, чтобы подтвердить заказ.</p>
+          </form>
+        </div>
+      </div>
+
+      <div id="successView" class="success" hidden>
+        <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="circ" cx="60" cy="60" r="52"/><path class="tick" d="M36 62 l16 16 l32 -36"/></svg>
+        <h3>Заказ принят!</h3>
+        <div class="num" id="okNum"></div>
+        <p id="okText"></p>
+        <button class="btn blue" type="button" id="okOrders">Следить за заказом</button>
+        <button class="btn paper" type="button" data-close>Вернуться в меню</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<!-- Мои заказы -->
+<dialog class="drawer" id="ordersDlg" aria-labelledby="ordersTitle">
+  <div class="drawer-in">
+    <div class="drawer-head">
+      <h2 id="ordersTitle">Мои заказы</h2>
+      <button class="x" type="button" data-close aria-label="Закрыть">✕</button>
+    </div>
+    <div class="drawer-body" id="ordersBody"></div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabase.js"></script>
+<script src="assets/js/shop.js"></script>
+</body>
+</html>
